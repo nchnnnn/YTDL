@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: sans-serif;
+          }
+          h1 {
+            text-align: center;
+            margin-top: 20px;
+          }
+          input {
+            width: 300px;
+            margin-bottom: 10px;
+          }
+          button {
+            background-color: #080808;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+          }
+          button:active {
+            background-color: pink;
+          }
+          select {
+            width: 150px;
+            margin-bottom: 10px;
+          }
+    </style>
+</head>
+<body>
+    <h1>YouTube Downloader</h1>
+    <input type="text" id="video-url" placeholder="Enter the YouTube video URL">
+    <button onclick="downloadVideo()">Download Video</button>
+    <select id="resolution">
+        <option value="1080p">1080p</option>
+        <option value="720p">720p</option>
+        <option value="480p">480p</option>
+    <option value="360p">360p</option>
+</select>
+<script>
+    function downloadVideo(url, resolution) {
+        // Create a new XMLHttpRequest object.
+        var xhr = new XMLHttpRequest();
+        // Set the request method and URL.
+        xhr.open("GET", url + "&format=" + resolution);
+        // Set the Access-Control-Allow-Origin header.
+        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+        // Start the request.
+        xhr.send();
+        // When the request is complete, download the video.
+        xhr.onload = function() {
+          if (xhr.status == 200) {
+            // Get the response body.
+            var response = xhr.responseText;
+            // Save the video to the user's computer.
+            var blob = new Blob([response], {type: "video/mp4"});
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "video.mp4";
+            document.body.appendChild(a);
+            a.click();
+          }
+        };
+      }
+</script>
+</body>
+</html>
